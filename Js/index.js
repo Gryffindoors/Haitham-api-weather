@@ -23,7 +23,7 @@ const cityQueries = {
 // Function to Fetch Weather Data
 const fetchWeatherData = async (city) => {
     const query = cityQueries[city];
-    const apiUrl = `http://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${query}&days=3&aqi=no&alerts=no`;
+    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${query}&days=3&aqi=no&alerts=no`;
 
     try {
         const response = await fetch(apiUrl);
