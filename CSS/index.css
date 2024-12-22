@@ -1,0 +1,250 @@
+/* Universal Reset */
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Default Theme: Alexandria */
+.theme-alexandria {
+    --primary-color: #2196F3; /* Sky Blue */
+    --secondary-color: #FFC107; /* Warm Yellow */
+    --background-color: #F0F8FF; /* Light Azure */
+    --text-color: #333; /* Dark Gray */
+
+    background-image: url(../images/alexandria.webp);
+    background-size: cover;
+    background-position: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Cairo Theme */
+.theme-cairo {
+    --primary-color: #FF5722; /* Sunset Orange */
+    --secondary-color: #FFC107; /* Warm Yellow */
+    --background-color: #FFF3E0; /* Light Peach */
+    --text-color: #333; /* Dark Gray */
+
+    background-image: url(../images/Cairo.jpg);
+    background-size: cover;
+    background-position: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Al-Mahalla Theme */
+.theme-almahalla {
+    --primary-color: #4CAF50; /* Vibrant Green */
+    --secondary-color: #FFEB3B; /* Bright Yellow */
+    --background-color: #E8F5E9; /* Light Green */
+    --text-color: #333; /* Dark Gray */
+
+    background-image: url(../images/El_Mahalla_El_Kobra_gate.jpg);
+    background-size: cover;
+    background-position: fixed;
+    background-repeat: no-repeat;
+}
+
+/* Luxor Theme */
+.theme-luxor {
+    --primary-color: #795548; /* Earthy Brown */
+    --secondary-color: #FF9800; /* Warm Orange */
+    --background-color: #FFFDE7; /* Pale Yellow */
+    --text-color: #333; /* Dark Gray */
+
+    background-image: url(../images/Luxor.jpg);
+    background-size: cover;
+    background-position: fixed;
+    background-repeat: no-repeat;
+}
+
+/* General Theme */
+.theme-general {
+    --primary-color: #6C757D; /* Neutral Gray */
+    --secondary-color: #17A2B8; /* Calm Blue */
+    --background-color: #F8F9FA; /* Light Gray */
+    --text-color: #343A40; /* Darker Gray */
+
+    background-image: url(../images/world.png); /* Update this path to your world map image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Navbar */
+.navbar {
+    background-color: var(--primary-color);
+}
+
+.navbar a,
+.navbar .active {
+    color: #FFFFFF !important;
+}
+
+.navbar a:hover {
+    color: var(--secondary-color);
+}
+
+.dropdown-item {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+}
+
+.dropdown-item:hover {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+/* Body */
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Buttons */
+.search-button {
+    color: var(--primary-color);
+}
+
+.search-button:hover {
+    color: var(--secondary-color);
+}
+
+/* Carousel */
+.logos {
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: transparent;
+    padding: 20px 0;
+}
+
+.logos-slide {
+    display: flex;
+    animation: slide 60s linear infinite;
+    width: calc(200px * 48 + 30px * 48);
+}
+
+.weather-item {
+    display: inline-block;
+    text-align: center;
+    background-color: #FFFFFF;
+    border: 1px solid var(--primary-color);
+    color: var(--text-color);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 0 15px;
+    width: 200px;
+}
+
+.weather-item i {
+    color: var(--secondary-color);
+    font-size: 2rem;
+}
+
+.weather-item h3 {
+    font-size: 1.2rem;
+    margin: 5px 0;
+}
+
+.weather-item p {
+    font-size: 0.9rem;
+    margin: 2px 0;
+}
+
+/* Keyframes for seamless loop */
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.current-weather-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* Weather Cards */
+.card {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    border-bottom: 2px solid var(--secondary-color);
+    text-align: center;
+    padding: 10px;
+    border-radius: 15px 15px 0 0;
+}
+
+.card-body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 20px;
+    text-align: center;
+}
+
+.card-body p {
+    margin: 5px 0;
+    color: var(--text-color);
+}
+
+/* Future Weather Cards */
+#futureWeather .card {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 2px solid var(--primary-color);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Add padding for content */
+    height: 300px; /* Increase height for more vertical space */
+    text-align: center;
+}
+
+#futureWeather .card-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+#futureWeather .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#futureWeather .weather-icon {
+    font-size: 3rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+#futureWeather .temperature {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+#futureWeather .conditions {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+/* Add hover effect for cards */
+.card:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+    border-color: var(--secondary-color);
+}
