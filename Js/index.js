@@ -49,7 +49,14 @@ const populateCarousel = (data) => {
 
     const hourlyData = data.forecast.forecastday[0].hour; // Get hourly data
 
-    hourlyData.forEach((hour) => {
+    // Duplicate data for seamless looping
+    const extendedData = [
+        ...hourlyData.slice(-3), // Last 3 hours appended to the beginning
+        ...hourlyData,          // Original data
+        ...hourlyData.slice(0, 3) // First 3 hours appended to the end
+    ];
+
+    extendedData.forEach((hour, index) => {
         const time = new Date(hour.time).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
@@ -71,6 +78,7 @@ const populateCarousel = (data) => {
         carouselContainer.appendChild(weatherItem);
     });
 };
+
 
 // Update future weather for 3 days
 const updateFutureWeather = (data) => {
