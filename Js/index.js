@@ -1,26 +1,18 @@
-// Clone the .logos-slide element for the carousel
-const logosSlide = document.querySelector(".logos-slide");
-
-if (logosSlide) {
-    const cloneEl = logosSlide.cloneNode(true);
-    document.querySelector(".logos").appendChild(cloneEl);
-} else {
-    console.error("The .logos-slide element was not found. Please ensure it exists in your HTML.");
-}
-
-// Weather API Key
 const API_KEY = "f7ce5fb574b84217bc4145951242112";
 
-// Mapping cities to API query values
+// City to query mappings
 const cityQueries = {
-    General: "New York", // Default general city for fetching data
     Alexandria: "Alexandria",
     Cairo: "Cairo",
-    AlMahalla: "Tanta", // Weather API does not recognize Al-Mahalla; using Tanta
+    AlMahalla: "Tanta",
     Luxor: "Luxor",
+    General: "New York",
 };
 
-// Function to Fetch Weather Data
+const cityDropdown = document.getElementById("cityDropdown");
+const body = document.body;
+
+// Fetch weather data
 const fetchWeatherData = async (city) => {
     const query = cityQueries[city];
     const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${query}&days=3&aqi=no&alerts=no`;
@@ -29,42 +21,28 @@ const fetchWeatherData = async (city) => {
         const response = await fetch(apiUrl);
         const weatherData = await response.json();
 
-        // Update real-time weather and carousel
         updateRealTimeWeather(weatherData);
-
-        // Update hourly carousel
         populateCarousel(weatherData);
-
-        // Update future weather for next three days
         updateFutureWeather(weatherData);
-
     } catch (error) {
         console.error("Error fetching weather data:", error);
     }
 };
 
-// Update Real-Time Weather in the .col-3 Section
+// Update real-time weather
 const updateRealTimeWeather = (data) => {
     const currentWeather = data.current;
-    const col3Container = document.querySelector(".col-3");
-
-    if (col3Container) {
-        col3Container.innerHTML = `
-            <h1>${data.location.name}</h1>
-            <h3>${new Date(data.location.localtime).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: true,
-            })}</h3>
-            <h3>${currentWeather.temp_c}°C</h3>
-            <p>Condition: ${currentWeather.condition.text}</p>
-            <p>Wind: ${currentWeather.wind_kph} kph</p>
-            <p>Humidity: ${currentWeather.humidity}%</p>
-        `;
-    }
+    document.querySelector(".col-3").innerHTML = `
+        <h1>${data.location.name}</h1>
+        <h3>${new Date(data.location.localtime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</h3>
+        <h3>${currentWeather.temp_c}°C</h3>
+        <p>${currentWeather.condition.text}</p>
+        <p>Wind: ${currentWeather.wind_kph} kph</p>
+        <p>Humidity: ${currentWeather.humidity}%</p>
+    `;
 };
 
-// Populate the Carousel with Hourly Weather Data
+// Populate carousel with hourly weather
 const populateCarousel = (data) => {
     const carouselContainer = document.querySelector(".logos-slide");
     carouselContainer.innerHTML = ""; // Clear any existing slides
@@ -94,7 +72,7 @@ const populateCarousel = (data) => {
     });
 };
 
-// Update Future Weather Data for Next Three Days
+// Update future weather for 3 days
 const updateFutureWeather = (data) => {
     const futureDays = data.forecast.forecastday;
 
@@ -105,102 +83,57 @@ const updateFutureWeather = (data) => {
             const tempElement = document.getElementById(`temp${i}`);
             const conditionsElement = document.getElementById(`conditions${i}`);
 
+            // Update date
             dateElement.textContent = new Date(futureDay.date).toLocaleDateString("en-GB", {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
             });
 
+            // Update weather icon above temperature
             tempElement.innerHTML = `
-                <span class="temperature">${futureDay.day.avgtemp_c}°C</span>
                 <i class="fa-solid ${getWeatherIcon(futureDay.day.condition.text)} weather-icon"></i>
+                <span class="temperature">${futureDay.day.avgtemp_c}°C</span>
             `;
 
+            // Update conditions (summary, wind, humidity)
             conditionsElement.innerHTML = `
-                ${futureDay.day.condition.text}<br>
-                Wind: ${futureDay.day.maxwind_kph} kph<br>
-                Humidity: ${futureDay.day.avghumidity}%
+                <p>${futureDay.day.condition.text}</p>
+                <p>Wind: ${futureDay.day.maxwind_kph} kph</p>
+                <p>Humidity: ${futureDay.day.avghumidity}%</p>
             `;
         }
     }
 };
 
-// Helper Function to Map Weather Conditions to Font Awesome Icons
+// Map weather conditions to icons
 const getWeatherIcon = (condition) => {
-    if (condition.includes("Sunny") || condition.includes("Clear")) {
-        return "fa-sun";
-    } else if (condition.includes("Cloudy")) {
-        return "fa-cloud";
-    } else if (condition.includes("Rain")) {
-        return "fa-cloud-showers-heavy";
-    } else if (condition.includes("Snow")) {
-        return "fa-snowflake";
-    } else if (condition.includes("Thunder")) {
-        return "fa-bolt";
-    } else {
-        return "fa-smog"; // Default for foggy/misty conditions
-    }
+    if (condition.includes("Sunny") || condition.includes("Clear")) return "fa-sun";
+    if (condition.includes("Cloudy")) return "fa-cloud";
+    if (condition.includes("Rain")) return "fa-cloud-showers-heavy";
+    if (condition.includes("Snow")) return "fa-snowflake";
+    if (condition.includes("Thunder")) return "fa-bolt";
+    return "fa-smog";
 };
 
-// Dropdown Logic to Change City, Theme, and Fetch Weather Data
-const dropdownItems = document.querySelectorAll(".dropdown-item");
-const body = document.body;
-const cityNameElement = document.getElementById("cityName");
-const currentDateElement = document.getElementById("currentDate");
+// Handle dropdown selection
+cityDropdown.addEventListener("change", () => {
+    const city = cityDropdown.value;
 
-dropdownItems.forEach((item) => {
-    item.addEventListener("click", function () {
-        const city = item.getAttribute("data-id");
+    // Save selected city to local storage
+    localStorage.setItem("selectedCity", city);
 
-        // Change the theme by updating the body class
-        body.classList.remove(
-            "theme-general",
-            "theme-alexandria",
-            "theme-cairo",
-            "theme-almahalla",
-            "theme-luxor"
-        );
-
-        // Update theme and city name
-        if (city === "Alexandria") {
-            body.classList.add("theme-alexandria");
-        } else if (city === "Cairo") {
-            body.classList.add("theme-cairo");
-        } else if (city === "AlMahalla") {
-            body.classList.add("theme-almahalla");
-        } else if (city === "Luxor") {
-            body.classList.add("theme-luxor");
-        } else {
-            body.classList.add("theme-general");
-        }
-
-        // Update City Name in Header
-        cityNameElement.textContent = city === "AlMahalla" ? "Al-Mahalla" : city;
-
-        // Fetch Weather Data for the Selected City
-        fetchWeatherData(city);
-
-        // Update Current Date
-        updateDate();
-    });
+    // Update theme and fetch data
+    body.className = `theme-${city.toLowerCase()}`;
+    fetchWeatherData(city);
 });
 
-// Function to Update the Current Date
-const updateDate = () => {
-    const currentDate = new Date().toLocaleDateString("en-GB", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-    });
-    currentDateElement.textContent = currentDate;
+// Initialize default settings or load from local storage
+const initializeApp = () => {
+    const savedCity = localStorage.getItem("selectedCity") || "Alexandria";
+    cityDropdown.value = savedCity;
+    body.className = `theme-${savedCity.toLowerCase()}`;
+    fetchWeatherData(savedCity);
 };
 
-// Default Theme and Weather Fetch on Startup
-body.classList.add("theme-general");
-cityNameElement.textContent = "General";
-updateDate();
-fetchWeatherData("General");
-
-// Auto-Update Date Every Minute
-setInterval(updateDate, 60000);
+initializeApp();

@@ -13,45 +13,10 @@
 </head>
 
 <body class="theme-alexandria">
-    <section id="header">
-        <nav class="navbar navbar-expand-lg px-5 position-sticky top-0">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#"><span class="material-symbols-outlined fs-1">filter_drama</span></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                City
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" data-id="General">General</a></li>
-                                <li><a class="dropdown-item" href="#" data-id="Alexandria">Alexandria</a></li>
-                                <li><a class="dropdown-item" href="#" data-id="AlMahalla">Al-Mahalla</a></li>
-                                <li><a class="dropdown-item" href="#" data-id="Cairo">Cairo</a></li>
-                                <li><a class="dropdown-item" href="#" data-id="Luxor">Luxor</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </section>
     <section id="weather">
         <div class="container my-5 position-relative">
             <input type="search" name="location" id="locationSearch" class="form-control rounded-5 ps-4 pe-5"
-                placeholder="Choose your city (Alexandria, Al-Mahalla, Cairo, Luxor) or choose from the dropdown">
+                placeholder="Search city or choose from the dropdown">
             <button
                 class="search-button border-0 rounded-5 bg-transparent position-absolute end-0 top-50 translate-middle-y me-4">
                 <i class="fa-solid fa-magnifying-glass"></i>
@@ -61,9 +26,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="d-flex card-header border-0 justify-content-between">
+                        <div class="card-header border-0 d-flex justify-content-between align-items-center">
                             <div>
-                                <h1 id="cityName">Alexandria</h1>
+                                <select id="cityDropdown" class="form-select">
+                                    <option value="Alexandria" selected>Alexandria</option>
+                                    <option value="Cairo">Cairo</option>
+                                    <option value="AlMahalla">Al-Mahalla</option>
+                                    <option value="Luxor">Luxor</option>
+                                    <option value="General">General</option>
+                                </select>
                             </div>
                             <div>
                                 <h3 id="currentDate">Today's date</h3>
@@ -95,48 +66,55 @@
             <div class="row">
                 <div class="col-4">
                     <div class="card">
-                        <div class="card-header text-center">
-                            <h3 id="date1">Date</h3>
-                        </div>
-                        <div class="card-body text-center">
-                            <div id="temp1">
-                                <span class="temperature">Temperature</span>
+                        <div class="card-header text-center" id="date1">Date</div>
+                        <div class="card-body">
+                            <div id="temp1" class="temperature-icon d-flex flex-column align-items-center">
                                 <i class="fa-solid fa-sun weather-icon"></i>
+                                <span class="temperature">Temperature</span>
                             </div>
-                            <p id="conditions1" class="conditions">Conditions</p>
+                            <div id="conditions1" class="conditions">
+                                <p>Condition</p>
+                                <p>Wind: -- kph</p>
+                                <p>Humidity: --%</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="card">
-                        <div class="card-header text-center">
-                            <h3 id="date2">Date</h3>
-                        </div>
-                        <div class="card-body text-center">
-                            <div id="temp2">
-                                <span class="temperature">Temperature</span>
+                        <div class="card-header text-center" id="date2">Date</div>
+                        <div class="card-body">
+                            <div id="temp2" class="temperature-icon d-flex flex-column align-items-center">
                                 <i class="fa-solid fa-sun weather-icon"></i>
+                                <span class="temperature">Temperature</span>
                             </div>
-                            <p id="conditions2" class="conditions">Conditions</p>
+                            <div id="conditions2" class="conditions">
+                                <p>Condition</p>
+                                <p>Wind: -- kph</p>
+                                <p>Humidity: --%</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-4">
                     <div class="card">
-                        <div class="card-header text-center">
-                            <h3 id="date3">Date</h3>
-                        </div>
-                        <div class="card-body text-center">
-                            <div id="temp3">
-                                <span class="temperature">Temperature</span>
+                        <div class="card-header text-center" id="date3">Date</div>
+                        <div class="card-body">
+                            <div id="temp3" class="temperature-icon d-flex flex-column align-items-center">
                                 <i class="fa-solid fa-sun weather-icon"></i>
+                                <span class="temperature">Temperature</span>
                             </div>
-                            <p id="conditions3" class="conditions">Conditions</p>
+                            <div id="conditions3" class="conditions">
+                                <p>Condition</p>
+                                <p>Wind: -- kph</p>
+                                <p>Humidity: --%</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         
 
     </section>
