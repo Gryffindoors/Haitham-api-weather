@@ -15,7 +15,7 @@ const body = document.body;
 // Fetch weather data
 const fetchWeatherData = async (city) => {
     const query = cityQueries[city];
-    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${query}&days=3&aqi=no&alerts=no`;
+    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${query}&days=4&aqi=no&alerts=no`;
 
     try {
         const response = await fetch(apiUrl);
@@ -84,35 +84,42 @@ const populateCarousel = (data) => {
 const updateFutureWeather = (data) => {
     const futureDays = data.forecast.forecastday;
 
-    for (let i = 1; i <= 3; i++) {
-        const futureDay = futureDays[i - 1];
-        if (futureDay) {
-            const dateElement = document.getElementById(`date${i}`);
-            const tempElement = document.getElementById(`temp${i}`);
-            const conditionsElement = document.getElementById(`conditions${i}`);
+    console.log("Forecast Days:", futureDays); // Debugging: Log API response
 
-            // Update date
+    // Iterate over the next 3 days (starting from tomorrow)
+    for (let i = 0; i < 3; i++) {
+        const futureDay = futureDays[i + 1]; // Skip today's data (index 0)
+        const dateElement = document.getElementById(`date${i + 1}`);
+        const tempElement = document.getElementById(`temp${i + 1}`);
+        const conditionsElement = document.getElementById(`conditions${i + 1}`);
+
+        if (futureDay) {
+            // Populate the card with forecast data
             dateElement.textContent = new Date(futureDay.date).toLocaleDateString("en-GB", {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
             });
 
-            // Update weather icon above temperature
             tempElement.innerHTML = `
                 <i class="fa-solid ${getWeatherIcon(futureDay.day.condition.text)} weather-icon"></i>
                 <span class="temperature">${futureDay.day.avgtemp_c}°C</span>
             `;
 
-            // Update conditions (summary, wind, humidity)
             conditionsElement.innerHTML = `
                 <p>${futureDay.day.condition.text}</p>
                 <p>Wind: ${futureDay.day.maxwind_kph} kph</p>
                 <p>Humidity: ${futureDay.day.avghumidity}%</p>
             `;
+        } else {
+            // If no data is available, display a placeholder
+            dateElement.textContent = "No Data";
+            tempElement.innerHTML = `<span class="temperature">--°C</span>`;
+            conditionsElement.innerHTML = `<p>No weather data available</p>`;
         }
     }
 };
+
 
 // Map weather conditions to icons
 const getWeatherIcon = (condition) => {
